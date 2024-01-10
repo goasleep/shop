@@ -1,0 +1,9 @@
+{
+	"folders": [
+		{
+			"uri": "vscode-remote://ssh-remote+127.0.0.1/Users/fengpeng/Project/own/distribution_system/src/frontend"
+		}
+	],
+	"remoteAuthority": "ssh-remote+127.0.0.1",
+	"settings": {}
+}
