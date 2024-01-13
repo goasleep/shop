@@ -42,7 +42,7 @@
           <v-subheader>订单管理</v-subheader>
           <v-list-item to="/main/orders">
             <v-list-item-action>
-              <v-icon>order</v-icon>
+              <v-icon>list</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>订单详情</v-list-item-title>
@@ -96,7 +96,7 @@
       <v-toolbar-title v-text="appName"></v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu bottom left offset-y>
-      <template v-slot:activator="{ on }"><v-btn v-on="on" /></template>
+        <template v-slot:activator="{ on }"><v-btn v-on="on" /></template>
 
         <v-list>
           <v-list-item to="/main/profile">
@@ -123,7 +123,7 @@
     </v-main>
     <v-footer class="pa-3" fixed app>
       <v-spacer></v-spacer>
-      <span>&copy; {{appName}}</span>
+      <span>&copy; {{ appName }}</span>
     </v-footer>
   </div>
 </template>
