@@ -48,6 +48,14 @@
               <v-list-item-title>订单详情</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item to="/main/withdraws">
+            <v-list-item-action>
+              <v-icon>list</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>提现详情</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list subheader v-show="hasAdminAccess">

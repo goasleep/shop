@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { apiUrl } from '@/env';
-import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, Order } from './interfaces';
+import { IUserProfile, IUserProfileUpdate, IUserProfileCreate, Order, Withdraw } from './interfaces';
 
 function authHeaders(token: string,params?:Record<string, any>) {
   return {
@@ -48,5 +48,13 @@ export const api = {
     console.log(params)
     console.log(authHeaders(token,params))
     return axios.get<Order[]>(`${apiUrl}/api/v1/orders/`,authHeaders(token,params));
-  }
+  },
+  async getWithdraws(token: string,params?:Record<string, any>){
+    console.log(params)
+    console.log(authHeaders(token,params))
+    return axios.get<Order[]>(`${apiUrl}/api/v1/withdrawals/`,authHeaders(token,params));
+  },
+  async updateWithdraw(token: string, id: number, data: Withdraw) {
+    return axios.patch(`${apiUrl}/api/v1/withdrawals/${id}`, data, authHeaders(token));
+  },
 };

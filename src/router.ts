@@ -63,6 +63,10 @@ export default new Router({
               component: () => import(/* webpackChunkName: "main-dashboard" */ './views/main/order/Order.vue'),
             },
             {
+              path: 'withdraws',
+              component: () => import(/* webpackChunkName: "main-dashboard" */ './views/main/order/Withdraw.vue'),
+            },
+            {
               path: 'admin',
               component: () => import(/* webpackChunkName: "main-admin" */ './views/main/admin/Admin.vue'),
               redirect: 'admin/users/all',

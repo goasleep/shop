@@ -22,6 +22,17 @@ export interface IUserProfileCreate {
     is_superuser?: boolean;
 }
 
+export interface Withdraw {
+    id: number | null,
+    amount: number | null,
+    request_person_id: string | null,
+    bank_account: string | null,
+    status: string | null,
+    handle_person_id: string,
+    create_time: Date | null,
+    update_time: Date | null
+  }
+
 export interface Order {
     id: number | null;
     order_number: string;
