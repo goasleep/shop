@@ -45,16 +45,29 @@ export const api = {
   },
   // order
   async getOrders(token: string,params?:Record<string, any>){
-    console.log(params)
     console.log(authHeaders(token,params))
     return axios.get<Order[]>(`${apiUrl}/api/v1/orders/`,authHeaders(token,params));
   },
   async getWithdraws(token: string,params?:Record<string, any>){
-    console.log(params)
     console.log(authHeaders(token,params))
     return axios.get<Order[]>(`${apiUrl}/api/v1/withdrawals/`,authHeaders(token,params));
   },
   async updateWithdraw(token: string, id: number, data: Withdraw) {
     return axios.patch(`${apiUrl}/api/v1/withdrawals/${id}`, data, authHeaders(token));
   },
+
+  async  uploadOrderFile(token: string,file: File): Promise<any> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const headers = {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": 'multipart/form-data'
+      };
+      const response = await axios.post(`${apiUrl}/api/v1/orders/@import-order`,file, {headers});
+      return response.data;
+    } catch (error) {
+      throw new Error('文件上传失败');
+    }
+  }
 };

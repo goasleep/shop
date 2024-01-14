@@ -53,7 +53,7 @@
                   <v-file-input v-model="selectedFile" label="选择文件"></v-file-input>
                 </v-card-text>
                 <v-card-actions>
-                  <v-btn color="primary" @click="uploadFile">上传</v-btn>
+                  <v-btn color="primary" @click="uploadFile" :loading="uploadLoading">上传</v-btn>
                   <v-btn color="secondary" @click="closeDialog">取消</v-btn>
                 </v-card-actions>
               </v-card>
@@ -81,12 +81,12 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">
+        <v-icon small class="mr-2">
           mdi-pencil
         </v-icon>
-        <v-icon small @click="deleteItem(item)">
+        <!-- <v-icon small>
           mdi-delete
-        </v-icon>
+        </v-icon> -->
       </template>
     </v-data-table>
   </div>
@@ -95,6 +95,7 @@
 <script>
 import { api } from '@/api';
 import { readToken } from '@/store/main/getters';
+import lo from "lodash";
 
 export default {
   data() {
@@ -110,7 +111,7 @@ export default {
         { text: '订单ID', value: 'order_number' },
         { text: '商品ID', value: 'product_id' },
         { text: '推手ID', value: 'commission_owner_id' },
-        { text: '商品状态', value: 'order_status' },
+        { text: '订单状态', value: 'order_status' },
         { text: '创建时间', value: 'order_time' },
         { text: '佣金金额', value: 'commission_income' },
         { text: '佣金比例', value: 'commission_rate' },
@@ -126,7 +127,8 @@ export default {
         commission_owner_id: null,
         order_status: null,
       },
-      dialog: false
+      dialog: false,
+      uploadLoading: false
     };
   },
   created() {
@@ -170,7 +172,9 @@ export default {
         limit: itemsPerPage,
         ...conditions,
       }
-      console.log(params)
+
+      const filteredObj = lo.pickBy(params, value => !lo.isEmpty(value));
+      // console.log(params)
       const response = await api.getOrders(readToken(this.$store), params);
       if (response) {
         this.orders = response.data.items
@@ -223,13 +227,30 @@ export default {
     closeDialog() {
       this.dialog = false;
     },
-    uploadFile() {
+    async uploadFile() {
       // 处理文件上传逻辑
       // 可以使用 selectedFile 属性访问选中的文件
-      console.log('上传文件:', this.selectedFile);
       // 这里可以调用上传文件的 API 或执行其他逻辑
       // 上传成功后，可以关闭弹窗
-      this.closeDialog();
+      this.uploadLoading = true;
+      if (this.selectedFile) {
+        // 创建 FormData 对象
+        const formData = new FormData();
+        formData.append('file', this.selectedFile);
+
+        const response = await api.uploadOrderFile(readToken(this.$store), formData);
+        if (response) {
+          console.log('上传成功');
+        } else {
+          console.log('上传失败');
+        }
+        // 发起 POST 请求，将文件上传到后端 API
+
+      } else {
+        console.log('请选择文件');
+      }
+      this.uploadLoading = false;
+      this.dialog = false;
     },
     save() {
       console.log('save closed')
